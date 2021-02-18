@@ -1,16 +1,19 @@
-import { ApolloClient } from 'apollo-client';
+import { ApolloClient, ApolloClientOptions } from 'apollo-client';
 import {
     HttpLink,
     InMemoryCache,
     IntrospectionFragmentMatcher,
+    NormalizedCacheObject,
 } from 'apollo-client-preset';
 
-export default options => {
+export default (
+    options: ApolloClientOptions<NormalizedCacheObject>,
+    uri?: string
+): ApolloClient<NormalizedCacheObject> => {
     if (!options) {
-        return new ApolloClient();
+        throw Error('Options must be provided to ApolloClient');
     }
-
-    const { cache, link, uri, ...otherOptions } = options;
+    const { cache, link, ...otherOptions } = options;
     let finalLink = link;
     let finalCache = cache;
 
